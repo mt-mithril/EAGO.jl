@@ -256,6 +256,7 @@ function add_nonlinear_functions!(m::Optimizer, evaluator::JuMP.NLPEvaluator)
         for i = 1:length(evaluator.subexpressions)
             
             println("########################")
+            println(i)
             println(evaluator.subexpressions[i])
             println("########################")
             
