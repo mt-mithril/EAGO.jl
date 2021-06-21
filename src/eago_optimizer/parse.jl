@@ -248,7 +248,17 @@ function add_nonlinear_functions!(m::Optimizer, evaluator::JuMP.NLPEvaluator)
     has_subexpressions = length(evaluator.m.nlp_data.nlexpr) > 0
     dict_sparsity = Dict{Int64,Vector{Int64}}()
     if has_subexpressions
+        
+        println("########################")
+        println(length(evaluator.subexpressions))
+        println("########################")
+        
         for i = 1:length(evaluator.subexpressions)
+            
+            println("########################")
+            println(evaluator.subexpressions[i])
+            println("########################")
+            
             subexpr = evaluator.subexpressions[i]
             push!(relax_evaluator.subexpressions, NonlinearExpression!(subexpr, dict_sparsity, i,
                                                                       evaluator.subexpression_linearity,
