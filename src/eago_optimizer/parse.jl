@@ -254,16 +254,20 @@ function add_nonlinear_functions!(m::Optimizer, evaluator::JuMP.NLPEvaluator)
         println("########################")
         
         for i = 1:length(evaluator.subexpressions)
+            try
+                println("########################")
+                println(i)
+                println(evaluator.subexpressions[i])
+                println("########################")
+
+                subexpr = evaluator.subexpressions[i]
+                push!(relax_evaluator.subexpressions, NonlinearExpression!(subexpr, dict_sparsity, i,
+                                                                          evaluator.subexpression_linearity,
+                                                                          m._parameters.relax_tag))
+            catch
+                @warn "fail to get evaluator.subexpressions[i]"
+            end
             
-            println("########################")
-            println(i)
-            println(evaluator.subexpressions[i])
-            println("########################")
-            
-            subexpr = evaluator.subexpressions[i]
-            push!(relax_evaluator.subexpressions, NonlinearExpression!(subexpr, dict_sparsity, i,
-                                                                      evaluator.subexpression_linearity,
-                                                                      m._parameters.relax_tag))
         end
     end
 
